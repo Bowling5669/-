@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>จองโต๊ะร้านอาหาร</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="food.css" />
 </head>
 <body>
@@ -18,8 +18,16 @@
 
   <div class="tables-container" id="tablesContainer"></div>
 
-  <script src="food.js">
+  <!-- ป๊อปอัพจองโต๊ะ -->
+  <div id="popup">
+    <h3>จองโต๊ะ <span id="popupTableId"></span></h3>
+    <label>ชื่อ: <input type="text" id="resName" /></label><br>
+    <label>วันที่ (YYYY-MM-DD): <input type="text" id="resDate" /></label><br>
+    <label>เวลา (HH:MM): <input type="text" id="resTime" /></label><br>
+    <button onclick="submitReservation()">จอง</button>
+    <button onclick="closePopup()">ยกเลิก</button>
+  </div>
 
-  </script>
+  <script src="food.js"></script>
 </body>
 </html>
