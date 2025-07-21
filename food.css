@@ -1,18 +1,11 @@
-.itim-regular {
-  font-family: "Itim", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
-
 body {
-    font-family: "Itim", cursive;
+  font-family: "Itim", cursive;
   background-color: #f0f8ff;
   margin: 0;
   padding: 0;
 }
 
 header {
-    font-family: "Itim", cursive;
   background-color: #0077b6;
   color: white;
   padding: 15px;
@@ -21,14 +14,13 @@ header {
   text-align: center;
 }
 
-header .icon {
+.icon {
   width: 30px;
   vertical-align: middle;
   margin-right: 10px;
 }
 
 #adminBtn {
-    font-family: "Itim", cursive;
   position: absolute;
   right: 15px;
   top: 12px;
@@ -48,6 +40,7 @@ header .icon {
 }
 
 .table {
+  background: white;
   border-radius: 10px;
   padding: 10px;
   box-shadow: 2px 2px 10px #aaa;
@@ -61,13 +54,12 @@ header .icon {
 
 .table img {
   width: 100%;
-  border-radius: 8px;
   height: 150px;
+  border-radius: 8px;
   object-fit: cover;
 }
 
 .table button {
-    font-family: "Itim", cursive;
   margin-top: 10px;
   padding: 6px 12px;
   border: none;
@@ -78,7 +70,6 @@ header .icon {
 }
 
 .table button:disabled {
-    font-family: "Itim", cursive;
   background-color: gray;
   cursor: not-allowed;
 }
@@ -87,4 +78,76 @@ header .icon {
 .row-2 { background-color: #ffe6cc; }
 .row-3 { background-color: #fce4ec; }
 .row-4 { background-color: #e8f5e9; }
-.row-5 { background-color: rgb(255, 236, 128); }
+.row-5 { background-color: #fff1c1; }
+
+#popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  font-family: "Itim", cursive;
+}
+
+#popup input {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 5px;
+  font-family: "Itim", cursive;
+}
+@media (max-width: 768px) {
+  .tables-container {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 10px;
+  }
+
+  .table {
+    font-size: 16px;
+    padding: 8px;
+  }
+
+  .table img {
+    height: 120px;
+  }
+
+  #adminBtn {
+    top: 8px;
+    right: 10px;
+    padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  header {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  #popup {
+    width: 90%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tables-container {
+    grid-template-columns: 1fr;
+  }
+
+  .table img {
+    height: 100px;
+  }
+
+  .table h3 {
+    font-size: 18px;
+  }
+
+  .table p, .table button {
+    font-size: 14px;
+  }
+}
