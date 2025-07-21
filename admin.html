@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin Login - จัดการการจอง</title>
+
+<!-- เพิ่มฟอนต์ Itim -->
+<link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet" />
+
+<style>
+  body {
+    font-family: 'Itim', cursive;
+    padding: 20px;
+    background: linear-gradient(135deg, #f0f4f8, #d9e6f2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #loginDiv, #adminDiv {
+    max-width: 400px;
+    width: 100%;
+    background: #ffffffdd;
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgb(0 0 0 / 0.1);
+  }
+
+  #adminDiv {
+    display: none;
+  }
+
+  h2 {
+    margin-bottom: 20px;
+    color: #305077;
+    text-align: center;
+    letter-spacing: 1.2px;
+  }
+
+  input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 12px 0 20px;
+    font-size: 18px;
+    border: 2px solid #aac8e5;
+    border-radius: 8px;
+    outline-color: #4a90e2;
+    transition: border-color 0.3s ease;
+  }
+  input[type="password"]:focus {
+    border-color: #305077;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 18px;
+    background-color: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+  }
+  button:hover {
+    background-color: #305077;
+  }
+
+  #reservationList div {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+  }
+
+  #reservationList div:last-child {
+    border-bottom: none;
+  }
+
+  #reservationList button {
+    background: #cc0000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  #reservationList button:hover {
+    background-color: #a30000;
+  }
+
+  #clearReservations {
+    background-color: #e74c3c;
+    margin-top: 20px;
+  }
+  #clearReservations:hover {
+    background-color: #c0392b;
+  }
+
+  #logoutBtn {
+    background-color: #777;
+  }
+  #logoutBtn:hover {
+    background-color: #555;
+  }
+</style>
+</head>
+<body>
+
+<div id="loginDiv">
+  <h2>เข้าสู่ระบบแอดมิน</h2>
+  <input type="password" id="adminPassword" placeholder="กรอกรหัสผ่าน" style="width: 365px;"/>
+  <button id="loginBtn">เข้าสู่ระบบ</button>
+</div>
+
+<div id="adminDiv">
+  <h2>รายการจองโต๊ะ</h2>
+  <div id="reservationList"></div>
+  <button id="clearReservations">ลบข้อมูลการจองทั้งหมด</button>
+  <button id="logoutBtn">ออกจากระบบ</button>
+  <!-- เพิ่มปุ่มย้อนกลับ -->
+   <h1></h1>
+<button id="backToBooking" style="background-color: #4caf50; margin-top: 10px;">ย้อนกลับไปหน้าจอง</button>
+
+</div>
+
+<script>
+    const backToBookingBtn = document.getElementById("backToBooking");
+
+backToBookingBtn.addEventListener("click", () => {
+  // สมมติว่าหน้าจองคือ booking.html
+  window.location.href = "index.html";
+});
+
+  const correctPassword = "1234";  // เปลี่ยนรหัสผ่านตามต้องการ
+  const loginDiv = document.getElementById("loginDiv");
+  const adminDiv = document.getElementById("adminDiv");
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const reservationList = document.getElementById("reservationList");
+  const clearBtn = document.getElementById("clearReservations");
+
+  function loadReservations() {
+    const reservations = JSON.parse(localStorage.getItem("reservations")) || {};
+    reservationList.innerHTML = "";
+    if (Object.keys(reservations).length === 0) {
+      reservationList.textContent = "ยังไม่มีการจอง";
+      return;
+    }
+
+    for (const tableId in reservations) {
+      const res = reservations[tableId];
+      const div = document.createElement("div");
+
+      const text = document.createElement("span");
+      text.textContent = `โต๊ะ ${tableId} - จองโดย: ${res.name} วันที่: ${res.date} เวลา: ${res.time}`;
+
+      const btnCancel = document.createElement("button");
+      btnCancel.textContent = "ยกเลิกจอง";
+
+      btnCancel.addEventListener("click", () => {
+        if (confirm(`ต้องการยกเลิกการจองโต๊ะ ${tableId} ใช่หรือไม่?`)) {
+          delete reservations[tableId];
+          localStorage.setItem("reservations", JSON.stringify(reservations));
+          loadReservations();
+          alert(`ยกเลิกการจองโต๊ะ ${tableId} เรียบร้อยแล้ว`);
+        }
+      });
+
+      div.appendChild(text);
+      div.appendChild(btnCancel);
+      reservationList.appendChild(div);
+    }
+  }
+
+  clearBtn.addEventListener("click", () => {
+    if (confirm("ต้องการลบข้อมูลการจองทั้งหมดจริงหรือไม่?")) {
+      localStorage.removeItem("reservations");
+      loadReservations();
+      alert("ลบข้อมูลการจองทั้งหมดเรียบร้อยแล้ว");
+    }
+  });
+
+  loginBtn.addEventListener("click", () => {
+    const enteredPass = document.getElementById("adminPassword").value;
+    if (enteredPass === correctPassword) {
+      loginDiv.style.display = "none";
+      adminDiv.style.display = "block";
+      loadReservations();
+    } else {
+      alert("รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่");
+    }
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    adminDiv.style.display = "none";
+    loginDiv.style.display = "block";
+    document.getElementById("adminPassword").value = "";
+  });
+</script>
+
+</body>
+</html>
